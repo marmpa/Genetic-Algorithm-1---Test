@@ -13,6 +13,7 @@ function love.load()
   --..................
   scale = 30
   tmp = GA:new()
+  tmp:SetMaxDistance()
 
   positionX = math.random(1,10)
   positionY = math.random(1,10)
