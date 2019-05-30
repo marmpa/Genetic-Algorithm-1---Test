@@ -1,11 +1,42 @@
 local Class = require("lib/middleclass")
+local Chromosome = require("chromosome")
 local GA = Class("GA")
 
-function GA:initialize(arrayLengthX,arrayLengthY)
+local directions = {["up"]={0,1},["down"]={0,-1},["left"]={-1,0},["right"]={1,0}}--the choices each gene can take
+
+local populationSize = 10--Population size
+
+function GA:initialize(arrayLengthX,arrayLengthY,startingLocation,endLocation)
   self:SetMaxDistance(arrayLengthX,arrayLengthY)
+
+  self.startingLocation=startingLocation
+  self.endLocation=endLocation
+
+  self.population = {}
+  for i=1,populationSize do
+    table.insert(self.population,Chromosome:new(arrayLengthX))--arrayLength is how long the chromosome is
+  end
 end
 
 function GA:Fitness()
+  --Finds fitness of all population
+
+  local currentFitness = {}
+
+  for i,v in ipairs(self.population) do--Search through all population
+    local projectedLocation = self.startingLocation
+    for j,k in ipairs(v.genes) do -- Add all
+      projectedLocation[0] = projectedLocation[0] + directions[k][0]
+      projectedLocation[1] = projectedLocation[1] + directions[k][1]
+    end
+    tempFitness=self.maxDistance-self:CalculateDistance(projectedLocation[0],projectedLocation[1],endLocation[0],endLocation[1])
+    table.insert(currentFitness,tempFitness)
+
+  end
+
+  table.sort(currentFitness,function(a,b) return a>b end)--Reverses the table e.g 5,4,3,2,1
+
+  populationToMate = math.floor(#currentFitness)
 
 end
 

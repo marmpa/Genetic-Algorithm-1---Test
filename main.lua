@@ -1,6 +1,8 @@
 local GA = require("geneticsClass")
 
 function love.load()
+  math.randomseed(os.time())--Setting random seed
+
   --Creating a 2d array
   arrayLength=10
   t = {}
