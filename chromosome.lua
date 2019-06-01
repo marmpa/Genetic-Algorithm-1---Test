@@ -4,13 +4,14 @@ local Chromosome = Class("Chromosome")
 local directions = {"up","down","left","right"}--the choices each gene can take
 
 function Chromosome:initialize(length,genes)
+  self.length = length
   self.genes = genes or self:RandomChromosome(length)
-
 end
 
 function Chromosome:RandomChromosome(length)
   -- Creates a new child chromosome
   childChromosome={}
+  
   for i=1,length do
     table.insert(childChromosome,self:Mutation())
   end
@@ -36,6 +37,16 @@ function Chromosome:Mate(parent)
     else
       table.insert(childChromosome,self:Mutation())--Generates random thingie
     end
+  end
+
+  child = Chromosome:new(self.length,childChromosome)
+
+  return child
+end
+
+function Chromosome:PrintGenes()
+  for i,v in ipairs(self.genes) do
+    print(i,v,"genes printout")
   end
 end
 
